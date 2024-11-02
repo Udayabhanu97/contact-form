@@ -1,0 +1,55 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const contactForm = document.getElementById('contactForm');
+    const taskInput = document.getElementById('taskInput');
+    const taskList = document.getElementById('taskList');
+    const addTaskButton = document.getElementById('addTask');
+
+    // Contact form submission
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission for demo purposes
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!name || !email || !message) {
+            alert('Please fill in all fields.');
+        } else if (!emailPattern.test(email)) {
+            alert('Please enter a valid email address.');
+        } else {
+            alert('Thank you for your message!');
+            contactForm.reset(); // Reset form after submission
+        }
+    });
+
+    // Dynamic To-Do List Functionality
+    addTaskButton.addEventListener('click', function() {
+        const taskText = taskInput.value.trim();
+
+        if (taskText) {
+            const li = document.createElement('li');
+            li.textContent = taskText;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.classList.add('remove-task');
+            removeButton.onclick = function() {
+                li.remove();
+            };
+
+            li.appendChild(removeButton);
+            taskList.appendChild(li);
+            taskInput.value = ''; // Clear input
+        } else {
+            alert('Please enter a task.');
+        }
+    });
+
+    // Allow pressing Enter to add a task
+    taskInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            addTaskButton.click(); // Simulate click
+        }
+    });
+});
